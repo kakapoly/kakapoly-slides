@@ -1,0 +1,9 @@
+{
+  "name": "kakapoly-slides",
+  "author": "Hyuk-woo Kwon <hyukwoo.kwon.epic@gmail.com>",
+  "repository": "https://github.com/kakapoly/kakapoly-slides.git",
+  "private": "true",
+  "workspaces": [
+    "main"
+  ]
+}
