@@ -1,8 +1,81 @@
 {
-	"folders": [
-		{
-			"path": "main"
-		}
-	],
-	"settings": {}
+  "folders": [
+    {
+      "path": "main"
+    }
+  ],
+  "settings": {
+    "editor.formatOnSave": true,
+    "folderTemplates.structures": [
+      {
+        "name": "React Component",
+        "structure": [
+          {
+            "fileName": "<FTName | pascalcase>.tsx",
+            "template": "React FC"
+          },
+          {
+            "fileName": "<FTName | pascalcase>.styles.ts",
+            "template": "React TS styles"
+          },
+          {
+            "fileName": "<FTName | pascalcase>.stories.tsx",
+            "template": "React TS stories"
+          }
+        ]
+      },
+      {
+        "name": "React Page",
+        "structure": [
+          {
+            "fileName": "<FTName | pascalcase>.tsx",
+            "template": "React Page FC"
+          }
+        ]
+      }
+    ],
+    "folderTemplates.fileTemplates": {
+      "React FC": [
+        "import * as styles from './<FTName | pascalcase>.styles';",
+        "",
+        "interface <FTName | pascalcase>Props {}",
+        "",
+        "const <FTName | pascalcase>: React.FC<<FTName | pascalcase>Props> = () => {",
+        "  return <div></div>;",
+        "};",
+        "",
+        "export default <FTName | pascalcase>;",
+        ""
+      ],
+      "React TS styles": ["import { css } from '@emotion/react';", ""],
+      "React TS stories": [
+        "import { ComponentStory, ComponentMeta } from '@storybook/react';",
+        "",
+        "import <FTName | pascalcase> from './<FTName | pascalcase>';",
+        "",
+        "export default {",
+        "  title: 'Components/<FTName | pascalcase>',",
+        "  component: <FTName | pascalcase>,",
+        "} as ComponentMeta<typeof <FTName | pascalcase>>;",
+        "",
+        "const Template: ComponentStory<typeof <FTName | pascalcase>> = (args) => {",
+        "  return <<FTName | pascalcase> {...args} />;",
+        "};",
+        "",
+        "export const Primary = Template.bind({});",
+        "Primary.args = {};",
+        ""
+      ],
+      "React Page FC": [
+        "interface <FTName | pascalcase>Props {}",
+        "",
+        "const <FTName | pascalcase>: React.FC<<FTName | pascalcase>Props> = () => {",
+        "  return <div></div>;",
+        "};",
+        "",
+        "export default <FTName | pascalcase>;",
+        ""
+      ]
+    }
+  }
 }
