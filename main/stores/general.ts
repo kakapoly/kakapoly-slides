@@ -1,5 +1,6 @@
 import create from "zustand";
 import produce from "immer";
+import { persist } from "zustand/middleware";
 
 interface GeneralStore {
   sidebarOpened: boolean;
@@ -7,20 +8,27 @@ interface GeneralStore {
   toggleSidebarOpened: () => void;
 }
 
-export const useGeneralStore = create<GeneralStore>((set) => ({
-  sidebarOpened: false,
-  setSidebarOpened: (payload) => {
-    set(
-      produce((state) => {
-        state.sidebarOpened = payload;
-      })
-    );
-  },
-  toggleSidebarOpened: () => {
-    set(
-      produce((state) => {
-        state.sidebarOpened = !state.sidebarOpened;
-      })
-    );
-  },
-}));
+export const useGeneralStore = create<GeneralStore>()(
+  persist(
+    (set) => ({
+      sidebarOpened: false,
+      setSidebarOpened: (payload) => {
+        set(
+          produce((state) => {
+            state.sidebarOpened = payload;
+          })
+        );
+      },
+      toggleSidebarOpened: () => {
+        set(
+          produce((state) => {
+            state.sidebarOpened = !state.sidebarOpened;
+          })
+        );
+      },
+    }),
+    {
+      name: "general-store",
+    }
+  )
+);

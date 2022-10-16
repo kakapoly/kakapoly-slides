@@ -12,6 +12,7 @@ import Sidebar from "../sidebar/Sidebar";
 
 import * as styles from "./DeckPageLayout.styles";
 import TopbarWidget from "../../widgets/topbar-widget/TopbarWidget";
+import { SIDEBAR_WIDTH } from "../../constants";
 
 interface DeckPageLayoutProps {
   sidebarOpened: boolean;
@@ -29,10 +30,10 @@ const DeckPageLayout: React.FC<DeckPageLayoutProps> = ({
           type: "tween",
         }}
         initial={{
-          x: sidebarOpened ? 280 : 0,
+          x: sidebarOpened ? SIDEBAR_WIDTH : 0,
         }}
         animate={{
-          x: sidebarOpened ? 280 : 0,
+          x: sidebarOpened ? SIDEBAR_WIDTH : 0,
         }}
       >
         <Box position={"sticky"} top={0}>
@@ -45,16 +46,16 @@ const DeckPageLayout: React.FC<DeckPageLayoutProps> = ({
           type: "tween",
         }}
         initial={{
-          marginLeft: sidebarOpened ? 280 : 0,
+          marginLeft: sidebarOpened ? SIDEBAR_WIDTH : 0,
         }}
         animate={
           largerThanMd
             ? {
-                marginLeft: sidebarOpened ? 280 : 0,
+                marginLeft: sidebarOpened ? SIDEBAR_WIDTH : 0,
                 x: 0,
               }
             : {
-                x: sidebarOpened ? 280 : 0,
+                x: sidebarOpened ? SIDEBAR_WIDTH : 0,
                 marginLeft: 0,
               }
         }

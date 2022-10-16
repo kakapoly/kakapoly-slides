@@ -10,6 +10,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTableCellsLarge } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
+import { SIDEBAR_WIDTH } from "../../constants";
 
 interface SidebarProps {}
 
@@ -19,7 +20,7 @@ const Sidebar: React.FC<SidebarProps> = ({}) => {
       borderRight={"1px solid"}
       borderColor={"gray.200"}
       backgroundColor={"white"}
-      width={"280px"}
+      width={`${SIDEBAR_WIDTH}px`}
       height={"100vh"}
       padding={"8px 4px"}
     >
