@@ -1,7 +1,10 @@
 {
   "folders": [
     {
-      "path": "main"
+      "path": "main",
+    },
+    {
+      "path": "server",
     }
   ],
   "settings": {
