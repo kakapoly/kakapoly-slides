@@ -4,6 +4,7 @@
   "repository": "https://github.com/kakapoly/kakapoly-slides.git",
   "private": "true",
   "workspaces": [
-    "main"
+    "main",
+    "server"
   ]
 }
