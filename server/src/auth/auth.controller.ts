@@ -2,11 +2,12 @@ import {
   Controller,
   Post,
   UseGuards,
-  Request,
   Body,
   HttpException,
   HttpStatus,
+  Req,
 } from '@nestjs/common';
+import { LocalAuthRequest } from 'src/types';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { UsersService } from 'src/users/users.service';
 import { AuthService } from './auth.service';
@@ -21,7 +22,7 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @Post('log-in')
-  async logIn(@Request() req) {
+  async logIn(@Req() req: LocalAuthRequest) {
     return this.authService.login(req.user);
   }
 
