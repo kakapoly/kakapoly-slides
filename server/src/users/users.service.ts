@@ -37,9 +37,9 @@ export class UsersService {
       return null;
     }
 
-    const { password, ...privacySafeUser } = user;
+    const { password, ...userWithoutCredentials } = user;
 
-    return privacySafeUser;
+    return userWithoutCredentials;
   }
 
   update(id: string, updateUserDto: UpdateUserDto) {
