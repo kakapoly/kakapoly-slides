@@ -1,5 +1,5 @@
-import { Deck } from 'src/decks/entities/deck.entity';
-import { User } from 'src/users/entities/user.entity';
+import { Deck } from '../../decks/entities/deck.entity';
+import { User } from '../../users/entities/user.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 export enum RoleType {

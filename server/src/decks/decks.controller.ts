@@ -11,12 +11,12 @@ import {
   NotFoundException,
   Req,
 } from '@nestjs/common';
-import { JwtAnonAuthGuard } from 'src/auth/guards/jwt-anon-auth.guard';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { RoleType } from 'src/roles/entities/role.entity';
-import { RolesService } from 'src/roles/roles.service';
-import { JwtAnonAuthRequest, JwtAuthRequest } from 'src/types';
-import { UsersService } from 'src/users/users.service';
+import { JwtAnonAuthGuard } from '../auth/guards/jwt-anon-auth.guard';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { RoleType } from '../roles/entities/role.entity';
+import { RolesService } from '../roles/roles.service';
+import { JwtAnonAuthRequest, JwtAuthRequest } from '../types';
+import { UsersService } from '../users/users.service';
 import { DecksService } from './decks.service';
 import { CreateDeckDto } from './dto/create-deck.dto';
 import { UpdateDeckDto } from './dto/update-deck.dto';
@@ -38,14 +38,15 @@ export class DecksController {
     return this.decksService.createAndAssignRole(createDeckDto, req.user.id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
-  list() {
-    return this.decksService.findAll();
+  list(@Req() req: JwtAuthRequest) {
+    return this.decksService.findAllByUser(req.user.id);
   }
 
   @UseGuards(JwtAnonAuthGuard)
   @Get(':id')
-  async get(@Param('id') id: string, @Req() req: JwtAnonAuthRequest) {
+  async get(@Req() req: JwtAnonAuthRequest, @Param('id') id: string) {
     const deck = await this.decksService.findOne(id);
 
     if (!deck) {
@@ -88,8 +89,29 @@ export class DecksController {
     throw new UnauthorizedException();
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDeckDto: UpdateDeckDto) {
+  async update(
+    @Req() req: JwtAuthRequest,
+    @Param('id') id: string,
+    @Body() updateDeckDto: UpdateDeckDto,
+  ) {
+    const user = await this.usersService.findOne(req.user.id);
+
+    if (!user) {
+      throw new UnauthorizedException();
+    }
+
+    const role = await this.rolesService.findUserRoleOfDeck(id, user.id);
+
+    if (!role) {
+      throw new UnauthorizedException();
+    }
+
+    if (!(role.type === RoleType.EDITOR || role.type === RoleType.OWNER)) {
+      throw new UnauthorizedException();
+    }
+
     return this.decksService.update(id, updateDeckDto);
   }
 

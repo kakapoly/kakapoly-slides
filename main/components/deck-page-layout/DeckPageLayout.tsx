@@ -8,18 +8,20 @@ import {
 } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import Sidebar from "../sidebar/Sidebar";
 
 import * as styles from "./DeckPageLayout.styles";
-import TopbarWidget from "../../widgets/topbar-widget/TopbarWidget";
 import { SIDEBAR_WIDTH } from "../../constants";
+import { ReactNode } from "react";
+import Sidebar from "../sidebar/Sidebar";
 
 interface DeckPageLayoutProps {
   sidebarOpened: boolean;
+  topbar: ReactNode;
 }
 
 const DeckPageLayout: React.FC<DeckPageLayoutProps> = ({
   sidebarOpened = true,
+  topbar,
 }) => {
   const [largerThanMd] = useMediaQuery(`(min-width: ${theme.breakpoints.md})`);
 
@@ -61,7 +63,7 @@ const DeckPageLayout: React.FC<DeckPageLayoutProps> = ({
         }
       >
         <Box position={"sticky"} top={0} zIndex={1}>
-          <TopbarWidget />
+          {topbar}
         </Box>
         <Box bg={"gray.50"} padding={"32px 0"}>
           <Box

@@ -4,11 +4,11 @@ import { Repository } from 'typeorm';
 import { CreateDeckDto } from './dto/create-deck.dto';
 import { UpdateDeckDto } from './dto/update-deck.dto';
 import { Deck } from './entities/deck.entity';
-import { RolesService } from 'src/roles/roles.service';
-import { CreateRoleDto } from 'src/roles/dto/create-role.dto';
-import { RoleType } from 'src/roles/entities/role.entity';
-import { UsersService } from 'src/users/users.service';
-import { AuthUser } from 'src/types';
+import { RolesService } from '../roles/roles.service';
+import { CreateRoleDto } from '../roles/dto/create-role.dto';
+import { RoleType } from '../roles/entities/role.entity';
+import { UsersService } from '../users/users.service';
+import { AuthUser } from '../types';
 
 @Injectable()
 export class DecksService {
@@ -26,7 +26,7 @@ export class DecksService {
 
     await this.decksRepository.save(deck);
 
-    return deck;
+    return await this.findOne(deck.id);
   }
 
   async createAndAssignRole(
@@ -34,6 +34,10 @@ export class DecksService {
     userId: AuthUser['id'],
   ) {
     const deck = await this.create(createDeckDto);
+
+    if (!deck) {
+      throw new Error('Deck not found.');
+    }
 
     const user = await this.usersService.findOne(userId);
 
@@ -48,19 +52,37 @@ export class DecksService {
 
     await this.rolesService.create(createRoleDto);
 
-    return deck;
+    return await this.findOne(deck.id);
   }
 
-  findAll() {
-    return `This action returns all decks`;
+  async findAllByUser(userId: string) {
+    return await this.decksRepository
+      .createQueryBuilder('deck')
+      .leftJoinAndSelect('deck.roles', 'roles')
+      .leftJoinAndSelect('roles.user', 'user')
+      .where('user.id = :userId', { userId })
+      .select(['deck.id', 'deck.title', 'deck.publicAccess', 'roles'])
+      .getMany();
   }
 
   async findOne(id: string) {
-    return await this.decksRepository.findOneBy({ id });
+    return await this.decksRepository.findOne({
+      where: {
+        id,
+      },
+      relations: ['roles'],
+    });
   }
 
-  update(id: string, updateDeckDto: UpdateDeckDto) {
-    return `This action updates a #${id} deck`;
+  async update(id: string, updateDeckDto: UpdateDeckDto) {
+    await this.decksRepository.update(
+      {
+        id,
+      },
+      updateDeckDto,
+    );
+
+    return await this.findOne(id);
   }
 
   remove(id: string) {
