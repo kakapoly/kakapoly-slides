@@ -13,15 +13,18 @@ import {
   faEllipsis,
   faAnglesLeft,
 } from "@fortawesome/free-solid-svg-icons";
+import { ReactNode } from "react";
 
-interface TopbarProps {
+interface DeckPageTopbarProps {
   sidebarOpened: boolean;
   onSidebarOpenerButtonClick?: () => void;
+  title: ReactNode;
 }
 
-const Topbar: React.FC<TopbarProps> = ({
+const DeckPageTopbar: React.FC<DeckPageTopbarProps> = ({
   sidebarOpened = true,
   onSidebarOpenerButtonClick,
+  title,
 }) => {
   return (
     <Box bg="gray.50" w={"100%"} padding={"8px 0"}>
@@ -40,11 +43,7 @@ const Topbar: React.FC<TopbarProps> = ({
             onClick={onSidebarOpenerButtonClick}
           />
         </GridItem>
-        <GridItem justifySelf={"center"}>
-          <Button variant={"ghost"} size={"sm"} color={"gray.600"}>
-            Untitled
-          </Button>
-        </GridItem>
+        <GridItem justifySelf={"center"}>{title}</GridItem>
         <GridItem justifySelf={"end"}>
           <Stack spacing={"4px"} direction="row">
             <Button variant={"ghost"} size={"sm"} color={"gray.600"}>
@@ -68,4 +67,4 @@ const Topbar: React.FC<TopbarProps> = ({
   );
 };
 
-export default Topbar;
+export default DeckPageTopbar;

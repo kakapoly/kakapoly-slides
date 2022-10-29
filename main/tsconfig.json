@@ -14,7 +14,18 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "jsxImportSource": "@emotion/react"
+    "jsxImportSource": "@emotion/react",
+    "baseUrl": ".",
+    "paths": {
+      "@/components/*": ["components/*"],
+      "@/widgets/*": ["widgets/*"],
+      "@/stores/*": ["stores/*"],
+      "@/libs/*": ["libs/*"],
+      "@/queries/*": ["queries/*"],
+      "@/hooks/*": ["hooks/*"],
+      "@/apis/*": ["apis/*"],
+      "@/constants": ["constants.ts"]
+    }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]

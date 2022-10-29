@@ -14,6 +14,7 @@ import { SIDEBAR_WIDTH } from "../../constants";
 
 interface SidebarProps {}
 
+// TODO: Rename to deck-page-sidebar
 const Sidebar: React.FC<SidebarProps> = ({}) => {
   return (
     <Box

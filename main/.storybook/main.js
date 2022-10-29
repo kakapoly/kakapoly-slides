@@ -1,3 +1,5 @@
+const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
+
 module.exports = {
   stories: [
     "../components/**/*.stories.mdx",
@@ -27,5 +29,9 @@ module.exports = {
   babel: async (options) => {
     options.presets.push("@emotion/babel-preset-css-prop");
     return options;
+  },
+  webpackFinal: async (config, { configType }) => {
+    config.resolve.plugins = [new TsconfigPathsPlugin()];
+    return config;
   },
 };
